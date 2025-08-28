@@ -1,0 +1,32 @@
+# Mapeamento de nomes de arquivos para chaves internas do programa
+# O agente irá procurar por arquivos que contenham esses nomes (não sensível a maiúsculas/minúsculas)
+arquivos_entrada:
+  ativos: "ATIVOS"
+  admissoes: "ADMISS"
+  desligados: "DESLIGADOS"
+  ferias: "FÉRIAS"
+  afastamentos: "AFASTAMENTOS"
+  aprendiz: "APRENDIZ"
+  estagio: "EST"
+  exterior: "EXTERIOR"
+  dias_uteis: "Base dias uteis"
+  sind_valor: "Base sindicato x valor"
+
+# Mapeamento opcional para nomes de abas (sheets) específicas. 
+# Se não for encontrado, o agente usará a primeira aba do arquivo.
+sheets:
+  ativos: "ATIVOS"
+  admissoes: "Planilha1"
+  desligados: "DESLIGADOS"
+  ferias: "Planilha1"
+  afastamentos: "Planilha1"
+  aprendiz: "Planilha1"
+  estagio: "Planilha1"
+  exterior: "Planilha1"
+  dias_uteis: "Planilha1"
+  sind_valor: "Planilha1"
+
+# Regras de negócio configuráveis
+regras:
+  # Regra para demitidos após o dia 15. Opções: "integral" ou "proporcional"
+  pos15_regra: "integral"

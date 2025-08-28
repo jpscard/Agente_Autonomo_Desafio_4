@@ -1,0 +1,16 @@
+pandas
+openpyxl
+streamlit
+
+# Para o arquivo de configuração
+pyyaml
+
+# Para os testes
+pytest
+
+# Para a integração com Agente de IA (Etapa 2)
+langchain
+langchain-google-genai
+python-dotenv
+
+tabulate # Adicionado para depuração de dataframes

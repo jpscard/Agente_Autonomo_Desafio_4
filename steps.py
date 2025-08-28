@@ -1,0 +1,1 @@
+# Este arquivo foi refatorado e sua lógica movida para a arquitetura de agentes.
