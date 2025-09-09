@@ -1,4 +1,7 @@
 import pandas as pd
+import openpyxl
+from openpyxl.styles import Font, PatternFill, Alignment
+from openpyxl.utils import get_column_letter
 import logging
 from .context import Contexto
 
@@ -71,6 +74,40 @@ class ReporterAgent:
             sheet_name = f"VR MENSAL {ctx.competencia.strftime('%m.%Y')}"
             final_df.to_excel(w, sheet_name=sheet_name, index=False)
             valid_df.to_excel(w, sheet_name="Validações", index=False)
-        
+
+        # --- Ajustes de formatação com openpyxl ---
+        wb = openpyxl.load_workbook(out_xlsx)
+        ws = wb[sheet_name]
+
+        # 1. Inserir linha acima dos headers e somatório na coluna G1
+        ws.insert_rows(1)
+        col_g = 7  # G
+        last_row = ws.max_row
+        # Soma em G1: fonte vermelha, negrito, alinhamento centralizado, formato moeda
+        soma_cell = ws.cell(row=1, column=col_g)
+        soma_cell.value = f"=SUM(G3:G{last_row})"
+        soma_cell.font = Font(bold=True, color="FF0000")
+        soma_cell.alignment = Alignment(horizontal="center")
+        soma_cell.number_format = 'R$ #,##0.00'
+
+        # 2. Formatação dos headers (linha 2)
+        header_fill = PatternFill(start_color="000000", end_color="000000", fill_type="solid")
+        header_font = Font(name="Calibri", size=8, bold=True, color="FFFFFF")
+        for col in range(1, ws.max_column + 1):
+            cell = ws.cell(row=2, column=col)
+            cell.font = header_font
+            cell.fill = header_fill
+            cell.alignment = Alignment(horizontal="center", vertical="center")
+
+        # 3. Célula G2: CapsLock, fundo azul, letra branca
+        g2 = ws.cell(row=2, column=col_g)
+        g2.value = str(g2.value).upper() if g2.value else ""
+        g2.fill = PatternFill(start_color="0070C0", end_color="0070C0", fill_type="solid")  # Azul
+        g2.font = Font(name="Calibri", size=8, bold=True, color="FFFFFF")
+        g2.alignment = Alignment(horizontal="center", vertical="center")
+
+
+        wb.save(out_xlsx)
+
         logging.info(f"Agente Relator: Relatório final salvo em '{out_xlsx}'. Valor total: {valor_total_vr}")
         return valor_total_vr
